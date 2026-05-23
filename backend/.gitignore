@@ -1,0 +1,12 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos de entorno (Secretos)
+.env
+
+# Base de datos SQLite (Para no pisarse los datos de prueba entre ustedes)
+database.sqlite
+database.sqlite-journal
+
+# Logs de errores de npm
+npm-debug.log*
