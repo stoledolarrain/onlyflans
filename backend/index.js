@@ -4,15 +4,17 @@ const cors = require("cors");
 const db = require("./models");
 
 const app = express();
-const port = 3000;
+// Usa el puerto del .env, o el 3000 por defecto
+const port = process.env.PORT || 3000;
 
 // Middlewares globales obligatorios
 app.use(cors()); // Permite que React (puerto 5173 o 3000) hable con Node
-app.use(express.json()); // Entiende los JSON que manda Axios
+app.use(express.json()); // Entiende los JSON que manda Axios o Postman
 app.use(express.urlencoded({ extended: true }));
 
-// Rutas (las crearemos después)
-// require('./routes')(app);
+// --- CONEXIÓN DE RUTAS ---
+// Esto le dice a Express que vaya al archivo routes/index.js y cargue todos los endpoints
+require('./routes')(app);
 
 // Sincronización con SQLite
 db.sequelize.sync({
@@ -23,6 +25,7 @@ db.sequelize.sync({
     console.error("Error al sincronizar la BD:", err);
 });
 
+// Levantar el servidor
 app.listen(port, () => {
     console.log(`API de OnlyFlans escuchando en el puerto ${port}`);
 });
