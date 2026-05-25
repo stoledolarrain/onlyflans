@@ -76,10 +76,7 @@ export default function Registro() {
         <h2 className="text-3xl font-extrabold text-center text-black tracking-tight">
           Crear Cuenta
         </h2>
-
-        <p className="text-center text-gray-600 mb-8 mt-1.5">
-          Únete a OnlyFlans hoy mismo
-        </p>
+        <br />
 
         {errorGlobal && (
           <div className="bg-red-50 text-red-700 p-3 rounded-lg border border-red-200 mb-5 text-sm font-medium text-center">

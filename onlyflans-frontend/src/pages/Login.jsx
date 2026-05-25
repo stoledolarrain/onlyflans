@@ -70,6 +70,7 @@ export default function Login() {
         <h2 className="text-3xl font-extrabold text-center text-gray-950 tracking-tight">
           Iniciar Sesión
         </h2>
+        <br />
 
         {errorGlobal && (
           <div className="bg-red-50 text-red-700 p-3 rounded-lg border border-red-200 mb-5 text-sm font-medium text-center">

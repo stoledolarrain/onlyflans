@@ -5,7 +5,9 @@ const creadorController = require("../controllers/creador.controller");
 // Middlewares
 const requireAuth = require("../middlewares/auth.middleware");
 const requireRole = require("../middlewares/role.middleware");
-const { isJsonRequestValid } = require("../middlewares/isJsonRequestValid.middleware");
+const {
+  isJsonRequestValid,
+} = require("../middlewares/isJsonRequestValid.middleware");
 const schemaValidation = require("../middlewares/schemaValidation.middleware");
 const { perfilSchema, metaSchema } = require("../validators/creador.schema");
 
@@ -17,7 +19,7 @@ router.put(
   requireRole("creador"),
   isJsonRequestValid,
   schemaValidation(perfilSchema),
-  creadorController.putPerfil
+  creadorController.putPerfil,
 );
 
 router.post(
@@ -25,13 +27,32 @@ router.post(
   requireRole("creador"),
   isJsonRequestValid,
   schemaValidation(metaSchema),
-  creadorController.postMeta
+  creadorController.postMeta,
 );
 
-router.get("/reporte", requireRole("creador"), creadorController.getReporteIngresos);
+router.get(
+  "/reporte",
+  requireRole("creador"),
+  creadorController.getReporteIngresos,
+);
+
+// ---> NUEVA RUTA PARA CARGAR LA FOTO DEL CREADOR EN SU DASHBOARD <---
+router.get(
+  "/mi-perfil",
+  requireRole("creador"),
+  creadorController.getMiPerfilCompleto,
+);
 
 // Exclusivo para SEGUIDORES
-router.get("/lista", requireRole("seguidor"), creadorController.getListaCreadores);
-router.get("/:creadorId", requireRole("seguidor"), creadorController.getPerfilCreador);
+router.get(
+  "/lista",
+  requireRole("seguidor"),
+  creadorController.getListaCreadores,
+);
+router.get(
+  "/:creadorId",
+  requireRole("seguidor"),
+  creadorController.getPerfilCreador,
+);
 
 module.exports = router;
