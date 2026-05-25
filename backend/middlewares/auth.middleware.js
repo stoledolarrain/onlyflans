@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
       return res.status(401).json({ message: "Usuario no encontrado." });
     }
 
-    req.user = user; // Guardamos el usuario en la petición
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).json({ message: "Token inválido o expirado." });

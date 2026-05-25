@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const interaccionController = require("../controllers/interaccion.controller");
 
-// Middlewares
 const requireAuth = require("../middlewares/auth.middleware");
 const requireRole = require("../middlewares/role.middleware");
 const { isJsonRequestValid } = require("../middlewares/isJsonRequestValid.middleware");
@@ -11,7 +10,6 @@ const { comentarioSchema, favoritoSchema } = require("../validators/interaccion.
 
 router.use(requireAuth);
 
-// Exclusivo para SEGUIDORES
 router.post(
   "/comentar",
   requireRole("seguidor"),

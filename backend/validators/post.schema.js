@@ -6,7 +6,6 @@ const crearPostSchema = Joi.object({
     "string.uri": "La imagen debe ser una URL válida",
   }),
 }).custom((obj, helpers) => {
-  // Asegurarnos de que envíe al menos texto o una imagen
   if (!obj.texto && !obj.imagenUrl) {
     return helpers.error("any.invalid");
   }

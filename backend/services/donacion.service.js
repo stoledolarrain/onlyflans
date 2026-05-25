@@ -16,7 +16,6 @@ const donacionService = {
   },
 
   obtenerHistorialSeguidor: async (seguidorId, fechaInicio, fechaFin, nombreCreador) => {
-    // Req 18: Filtrar donaciones por fecha y nombre del creador destino
     const whereClause = { seguidorId };
     
     if (fechaInicio && fechaFin) {
@@ -27,7 +26,7 @@ const donacionService = {
 
     const creadorWhere = {};
     if (nombreCreador) {
-      creadorWhere.nombre = { [Op.like]: `%${nombreCreador}%` }; // Búsqueda parcial
+      creadorWhere.nombre = { [Op.like]: `%${nombreCreador}%` };
     }
 
     return await db.donacion.findAll({

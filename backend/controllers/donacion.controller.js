@@ -1,6 +1,5 @@
 const donacionService = require("../services/donacion.service");
 
-// [SEGUIDOR] Comprar flanes (Donar a un creador)
 exports.postDonarFlanes = async (req, res) => {
   try {
     const seguidorId = req.user.id;
@@ -13,7 +12,6 @@ exports.postDonarFlanes = async (req, res) => {
     const donacion = await donacionService.registrarDonacion(seguidorId, creadorId, cantidadFlanes);
     res.status(201).json({ message: `¡Has donado ${cantidadFlanes} flanes exitosamente!`, donacion });
   } catch (error) {
-    // Atrapamos reglas de negocio (ej. no donarse a sí mismo)
     if (error.message.startsWith("Regla de negocio")) {
       return res.status(400).json({ message: error.message });
     }
@@ -21,7 +19,6 @@ exports.postDonarFlanes = async (req, res) => {
   }
 };
 
-// [SEGUIDOR] Historial de donaciones que ha hecho (Filtros: fecha y nombre creador)
 exports.getHistorialSeguidor = async (req, res) => {
   try {
     const seguidorId = req.user.id;

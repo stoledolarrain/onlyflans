@@ -25,7 +25,6 @@ const postService = {
   },
 
   obtenerFeedParaSeguidor: async (seguidorId) => {
-    // Req 16: Obtener posts de los creadores marcados como favoritos
     const usuario = await db.usuario.findByPk(seguidorId, {
       include: [
         { model: db.usuario, as: "creadoresFavoritos", attributes: ["id"] },
@@ -36,10 +35,8 @@ const postService = {
       return [];
     }
 
-    // Extraemos solo los IDs de los creadores favoritos
     const creadoresIds = usuario.creadoresFavoritos.map((c) => c.id);
 
-    // Traemos los posts de esos creadores, ¡AHORA INCLUYENDO SUS COMENTARIOS!
     return await db.post.findAll({
       where: { creadorId: creadoresIds },
       include: [

@@ -1,6 +1,5 @@
 const postService = require("../services/post.service");
 
-// [CREADOR] Publicar un post
 exports.postCrearPost = async (req, res) => {
   try {
     const creadorId = req.user.id;
@@ -17,18 +16,16 @@ exports.postCrearPost = async (req, res) => {
   }
 };
 
-// [CREADOR] Ver sus propios posts y los comentarios que le dejaron (Req. 9 y 14)
 exports.getMisPosts = async (req, res) => {
   try {
     const creadorId = req.user.id;
-    const posts = await postService.obtenerPostsDeCreador(creadorId, true); // true = incluir comentarios
+    const posts = await postService.obtenerPostsDeCreador(creadorId, true);
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: "Error al cargar tus publicaciones.", error: error.message });
   }
 };
 
-// [SEGUIDOR] Ver Feed de creadores favoritos/seguidos (Req. 16)
 exports.getFeedSeguidor = async (req, res) => {
   try {
     const seguidorId = req.user.id;

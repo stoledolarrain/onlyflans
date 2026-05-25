@@ -1,12 +1,10 @@
 const interaccionService = require("../services/interaccion.service");
 
-// [SEGUIDOR] Dejar comentario en un post
 exports.postComentar = async (req, res) => {
   try {
     const seguidorId = req.user.id;
     const { postId, texto } = req.body;
 
-    // El servicio validará si el seguidor ya donó al dueño del post antes de dejarlo comentar
     const comentario = await interaccionService.crearComentario(seguidorId, postId, texto);
     res.status(201).json({ message: "Comentario guardado. Solo el creador lo verá.", comentario });
   } catch (error) {
@@ -17,7 +15,6 @@ exports.postComentar = async (req, res) => {
   }
 };
 
-// [SEGUIDOR] Marcar o desmarcar a un creador como favorito
 exports.postToggleFavorito = async (req, res) => {
   try {
     const seguidorId = req.user.id;
@@ -30,7 +27,6 @@ exports.postToggleFavorito = async (req, res) => {
   }
 };
 
-// [SEGUIDOR] Ver listado de creadores favoritos
 exports.getMisFavoritos = async (req, res) => {
   try {
     const seguidorId = req.user.id;

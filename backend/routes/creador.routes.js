@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const creadorController = require("../controllers/creador.controller");
 
-// Middlewares
 const requireAuth = require("../middlewares/auth.middleware");
 const requireRole = require("../middlewares/role.middleware");
 const {
@@ -11,9 +10,8 @@ const {
 const schemaValidation = require("../middlewares/schemaValidation.middleware");
 const { perfilSchema, metaSchema } = require("../validators/creador.schema");
 
-router.use(requireAuth); // Todo requiere estar logueado
+router.use(requireAuth);
 
-// Exclusivo para CREADORES
 router.put(
   "/perfil",
   requireRole("creador"),
@@ -36,14 +34,12 @@ router.get(
   creadorController.getReporteIngresos,
 );
 
-// ---> NUEVA RUTA PARA CARGAR LA FOTO DEL CREADOR EN SU DASHBOARD <---
 router.get(
   "/mi-perfil",
   requireRole("creador"),
   creadorController.getMiPerfilCompleto,
 );
 
-// Exclusivo para SEGUIDORES
 router.get(
   "/lista",
   requireRole("seguidor"),

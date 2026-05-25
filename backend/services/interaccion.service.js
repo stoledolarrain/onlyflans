@@ -2,11 +2,9 @@ const db = require("../models");
 
 const interaccionService = {
   crearComentario: async (seguidorId, postId, texto) => {
-    // Validar que el post existe
     const post = await db.post.findByPk(postId);
     if (!post) throw new Error("Post no encontrado.");
 
-    // Req 14 (Implicito): Solo puedes comentar si ya desbloqueaste al creador (le donaste)
     const donaciones = await db.donacion.count({
       where: { creadorId: post.creadorId, seguidorId }
     });
@@ -19,7 +17,6 @@ const interaccionService = {
   },
 
   toggleFavorito: async (seguidorId, creadorId) => {
-    // Si ya es favorito lo quita, si no, lo agrega
     const seguidor = await db.usuario.findByPk(seguidorId);
     
     const yaEsFavorito = await seguidor.hasCreadoresFavorito(creadorId);

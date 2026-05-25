@@ -36,7 +36,6 @@ const creadorService = {
   },
 
   listarCreadoresAlfabeticamente: async () => {
-    // Req 17: Listado en orden alfabético
     return await db.usuario.findAll({
       where: { rol: "creador" },
       attributes: ["id", "nombre"],
@@ -57,7 +56,6 @@ const creadorService = {
 
     if (!creador) return null;
 
-    // Req 12: Verificar si el seguidor ya donó a este creador
     const donacionesPrevias = await db.donacion.count({
       where: { creadorId, seguidorId }
     });
@@ -65,7 +63,6 @@ const creadorService = {
     let posts = [];
     let accesoDesbloqueado = false;
 
-    // Solo le traemos los posts si el contador de donaciones es mayor a 0
     if (donacionesPrevias > 0) {
       accesoDesbloqueado = true;
       posts = await db.post.findAll({

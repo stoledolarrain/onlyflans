@@ -34,7 +34,6 @@ exports.postLogin = async (req, res) => {
       return res.status(401).json({ message: "Credenciales incorrectas." });
     }
 
-    // El token guarda el ID y el ROL (vital para separar permisos)
     const token = generateToken({ id: usuario.id, rol: usuario.rol });
 
     res.status(200).json({ token, rol: usuario.rol, nombre: usuario.nombre });
@@ -44,7 +43,5 @@ exports.postLogin = async (req, res) => {
 };
 
 exports.getLogout = (req, res) => {
-  // En APIs REST con JWT, el logout real se hace en el Frontend borrando el token.
-  // Pero dejamos este endpoint para cumplir el requerimiento.
   res.status(200).json({ message: "Sesión cerrada exitosamente." });
 };

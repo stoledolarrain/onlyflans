@@ -1,6 +1,6 @@
 const creadorService = require("../services/creador.service");
+const db = require("../models");
 
-// [CREADOR] Crear o actualizar su foto, banner y descripción
 exports.putPerfil = async (req, res) => {
   try {
     const creadorId = req.user.id;
@@ -20,7 +20,6 @@ exports.putPerfil = async (req, res) => {
   }
 };
 
-// [CREADOR] Definir una meta
 exports.postMeta = async (req, res) => {
   try {
     const creadorId = req.user.id;
@@ -35,11 +34,10 @@ exports.postMeta = async (req, res) => {
   }
 };
 
-// [CREADOR] Reporte de ingresos (filtrado por fechas)
 exports.getReporteIngresos = async (req, res) => {
   try {
     const creadorId = req.user.id;
-    const { fechaInicio, fechaFin } = req.query; // Vienen en la URL: ?fechaInicio=2026-01-01&fechaFin=2026-12-31
+    const { fechaInicio, fechaFin } = req.query;
 
     const reporte = await creadorService.obtenerReporteFlanes(
       creadorId,
@@ -54,24 +52,42 @@ exports.getReporteIngresos = async (req, res) => {
   }
 };
 
-// ---> NUEVA FUNCIÓN PARA EL DASHBOARD DEL CREADOR <---
 exports.getMiPerfilCompleto = async (req, res) => {
   try {
     const creadorId = req.user.id;
-    // Usamos el mismo servicio del perfil público para extraer tu foto, banner y metas
-    const perfilCompleto = await creadorService.obtenerPerfilPublico(
-      creadorId,
-      creadorId,
-    );
-    res.status(200).json(perfilCompleto);
+
+    const usuarioModel = db.usuario || db.Usuario;
+    const perfilModel = db.perfil || db.Perfil;
+    const metaModel = db.meta || db.Meta || db.metas || db.Metas;
+
+    const usuario = await usuarioModel.findByPk(creadorId, {
+      attributes: ["id", "nombre", "email", "rol"],
+    });
+    const perfil = await perfilModel.findOne({ where: { creadorId } });
+    const metas = await metaModel.findAll({ where: { creadorId } });
+
+    // Devolvemos la estructura exacta que el frontend ya sabe procesar
+    res.status(200).json({
+      creador: {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        Perfil: perfil,
+        Meta: metas,
+      },
+    });
   } catch (error) {
+    console.error("Error en getMiPerfilCompleto:", error);
     res
       .status(500)
-      .json({ message: "Error al cargar tu perfil.", error: error.message });
+      .json({
+        message: "Error al cargar perfil del creador.",
+        error: error.message,
+      });
   }
 };
 
-// [SEGUIDOR] Ver listado alfabético de creadores
 exports.getListaCreadores = async (req, res) => {
   try {
     const creadores = await creadorService.listarCreadoresAlfabeticamente();
@@ -83,13 +99,11 @@ exports.getListaCreadores = async (req, res) => {
   }
 };
 
-// [SEGUIDOR] Ver el perfil de un creador específico
 exports.getPerfilCreador = async (req, res) => {
   try {
     const { creadorId } = req.params;
     const seguidorId = req.user.id;
 
-    // El servicio se encargará de verificar si este seguidor ya donó para mostrarle o no los posts
     const perfilCompleto = await creadorService.obtenerPerfilPublico(
       creadorId,
       seguidorId,

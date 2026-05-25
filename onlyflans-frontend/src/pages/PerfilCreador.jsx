@@ -250,7 +250,6 @@ export default function PerfilCreador() {
               disabled={donando}
               className="flex flex-col items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 rounded-2xl p-4 transition-all disabled:opacity-50 hover:scale-105"
             >
-              <span className="text-3xl">🍮</span>
               <span className="font-bold text-sm">1 Flan</span>
             </button>
 
@@ -259,7 +258,6 @@ export default function PerfilCreador() {
               disabled={donando}
               className="flex flex-col items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 rounded-2xl p-4 transition-all disabled:opacity-50 hover:scale-105"
             >
-              <span className="text-3xl">🍮🍮</span>
               <span className="font-bold text-sm">5 Flanes</span>
             </button>
 
@@ -268,7 +266,6 @@ export default function PerfilCreador() {
               disabled={donando}
               className="flex flex-col items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 rounded-2xl p-4 transition-all disabled:opacity-50 hover:scale-105"
             >
-              <span className="text-3xl">🥧</span>
               <span className="font-bold text-sm">10 Flanes</span>
             </button>
           </div>

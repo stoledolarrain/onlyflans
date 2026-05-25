@@ -10,7 +10,6 @@ const authService = {
   },
 
   createUser: async (nombre, email, password, rol) => {
-    // Al registrar un creador, le creamos un perfil vacío automáticamente
     const nuevoUsuario = await db.usuario.create({ nombre, email, password, rol });
     
     if (rol === "creador") {

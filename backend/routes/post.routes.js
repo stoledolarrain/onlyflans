@@ -22,7 +22,6 @@ router.post(
 
 router.get("/mis-posts", requireRole("creador"), postController.getMisPosts);
 
-// Exclusivo para SEGUIDORES
 router.get("/feed", requireRole("seguidor"), postController.getFeedSeguidor);
 
 module.exports = router;
