@@ -66,7 +66,6 @@ exports.getMiPerfilCompleto = async (req, res) => {
     const perfil = await perfilModel.findOne({ where: { creadorId } });
     const metas = await metaModel.findAll({ where: { creadorId } });
 
-    // Devolvemos la estructura exacta que el frontend ya sabe procesar
     res.status(200).json({
       creador: {
         id: usuario.id,
