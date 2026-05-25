@@ -2,21 +2,19 @@ import { useState, useEffect } from "react";
 import { MessageSquare, Send, User, Clock } from "lucide-react";
 import api from "../services/api";
 
-// --- SUB-COMPONENTE: Maneja el input de comentario para cada post individualmente ---
 function CajaComentario({ postId, onComentarioEnviado }) {
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!texto.trim()) return; // Evita enviar comentarios vacíos
+    if (!texto.trim()) return;
 
     setEnviando(true);
     try {
-      // Usamos los campos exactos de tu interaccion.schema.js
       await api.post("/interacciones/comentar", { postId, texto });
-      setTexto(""); // Limpiamos el input
-      onComentarioEnviado(); // Le avisamos al componente padre que recargue el feed
+      setTexto("");
+      onComentarioEnviado();
     } catch (error) {
       console.error("Error al comentar:", error);
       alert("Hubo un error al enviar tu comentario.");
@@ -46,14 +44,12 @@ function CajaComentario({ postId, onComentarioEnviado }) {
   );
 }
 
-// --- COMPONENTE PRINCIPAL: El Feed del Seguidor ---
 export default function FeedSeguidor() {
   const [posts, setPosts] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [errorGlobal, setErrorGlobal] = useState("");
 
   const cargarFeed = () => {
-    // Petición a la ruta de tu backend que trae el feed
     api
       .get("/posts/feed")
       .then((response) => {
@@ -109,8 +105,6 @@ export default function FeedSeguidor() {
       ) : (
         <div className="space-y-8">
           {posts.map((post) => {
-            // --- EXTRACCIÓN SEGURA DE DATOS DEL CREADOR ---
-            // Revisamos todas las posibles formas en las que Sequelize envía los datos
             const infoCreador =
               post.creador ||
               post.Creador ||
@@ -150,7 +144,6 @@ export default function FeedSeguidor() {
                   </div>
                 </div>
 
-                {/* --- Contenido del Post --- */}
                 <div className="p-5">
                   {post.texto && (
                     <p className="text-gray-800 text-base mb-4 leading-relaxed">
@@ -167,21 +160,17 @@ export default function FeedSeguidor() {
                   )}
                 </div>
 
-                {/* --- Sección de Comentarios --- */}
                 <div className="bg-gray-50 p-5 border-t border-gray-100">
                   <h4 className="text-sm font-bold text-gray-700 flex items-center gap-2 mb-4">
                     <MessageSquare size={16} />
                     Comentarios ({post.Comentarios?.length || 0})
                   </h4>
 
-                  {/* --- CORRECCIÓN AQUÍ: Extracción segura de la lista de comentarios --- */}
                   {(post.Comentarios && post.Comentarios.length > 0) ||
                   (post.comentarios && post.comentarios.length > 0) ? (
                     <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
-                      {/* Mapeamos la lista correcta, ya sea "Comentarios" o "comentarios" */}
                       {(post.Comentarios || post.comentarios).map(
                         (comentario) => {
-                          // Extracción segura del autor del comentario
                           const autorComentario =
                             comentario.autor ||
                             comentario.Autor ||
@@ -211,7 +200,6 @@ export default function FeedSeguidor() {
                     </p>
                   )}
 
-                  {/* Input para comentar (Sub-componente) */}
                   <CajaComentario
                     postId={post.id}
                     onComentarioEnviado={cargarFeed}

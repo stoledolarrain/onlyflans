@@ -8,7 +8,6 @@ export default function HistorialSeguidor() {
   const [errorGlobal, setErrorGlobal] = useState("");
 
   useEffect(() => {
-    // Llamamos a tu ruta del backend que trae el historial del seguidor
     api
       .get("/donaciones/historial")
       .then((response) => {
@@ -33,7 +32,6 @@ export default function HistorialSeguidor() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 pb-12 space-y-6">
-      {/* Cabecera */}
       <div className="mb-8 border-b pb-4 flex items-center gap-3">
         <div className="p-3 bg-amber-100 rounded-xl text-amber-600">
           <Clock size={24} />
@@ -54,7 +52,6 @@ export default function HistorialSeguidor() {
         </div>
       )}
 
-      {/* Tabla de Historial */}
       {historial.length === 0 && !errorGlobal ? (
         <div className="text-center bg-white rounded-2xl border border-gray-100 p-12 shadow-sm">
           <Award size={40} className="mx-auto text-gray-300 mb-4" />
@@ -78,7 +75,6 @@ export default function HistorialSeguidor() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {historial.map((donacion) => {
-                  // Extracción segura del nombre del creador al que le donó
                   const infoCreador =
                     donacion.creador ||
                     donacion.Creador ||

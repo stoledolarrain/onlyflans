@@ -12,7 +12,7 @@ import {
 import api from "../services/api";
 
 export default function PerfilCreador() {
-  const { creadorId } = useParams(); // Obtenemos el ID de la URL
+  const { creadorId } = useParams();
   const navigate = useNavigate();
 
   const [creador, setCreador] = useState(null);
@@ -20,9 +20,8 @@ export default function PerfilCreador() {
   const [errorGlobal, setErrorGlobal] = useState("");
   const [mensajeExito, setMensajeExito] = useState("");
   const [donando, setDonando] = useState(false);
-  const [siguiendo, setSiguiendo] = useState(false); // Estado para controlar si ya se sigue al creador
+  const [siguiendo, setSiguiendo] = useState(false); 
 
-  // Función para obtener el perfil del creador y actualizar posts desbloqueados si ya donó
   const cargarPerfil = () => {
     api
       .get(`/creadores/${creadorId}`)
@@ -37,11 +36,9 @@ export default function PerfilCreador() {
       });
   };
 
-  // Función para comprobar si este creador específico ya está en la lista de favoritos del seguidor
   const verificarSiLoSigo = async () => {
     try {
       const response = await api.get("/interacciones/favoritos");
-      // Buscamos si el ID de este creador coincide con algún registro en el array de favoritos
       const loSigo = response.data.some(
         (fav) =>
           fav.id === parseInt(creadorId) ||
@@ -58,7 +55,6 @@ export default function PerfilCreador() {
     verificarSiLoSigo();
   }, [creadorId]);
 
-  // Función para enviar la donación de flanes
   const handleDonar = async (cantidad) => {
     setDonando(true);
     setMensajeExito("");
@@ -71,7 +67,6 @@ export default function PerfilCreador() {
       });
 
       setMensajeExito(`¡Increíble! Has donado ${cantidad} flan(es) con éxito.`);
-      // Volvemos a pedir el perfil para que el backend nos devuelva la lista de posts liberados al instante
       cargarPerfil();
     } catch (error) {
       console.error(error);
@@ -84,13 +79,11 @@ export default function PerfilCreador() {
     }
   };
 
-  // Función toggle para seguir o dejar de seguir mediante favoritos (Ruta /interacciones/favorito)
   const handleFavorito = async () => {
     try {
       await api.post("/interacciones/favorito", {
         creadorId: parseInt(creadorId),
       });
-      // Invertimos el estado visualmente al instante
       setSiguiendo(!siguiendo);
     } catch (error) {
       console.error("Error al modificar favoritos:", error);
@@ -113,7 +106,6 @@ export default function PerfilCreador() {
     );
   }
 
-  // Estructura de extracción limpia mapeada según la respuesta de tu backend
   const infoUsuario = creador.creador;
   const perfilInfo = infoUsuario.Perfil || {};
   const metaActiva =
@@ -124,7 +116,6 @@ export default function PerfilCreador() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-12 space-y-6">
-      {/* Barra de controles superiores */}
       <div className="flex justify-between items-center mb-2">
         <button
           onClick={() => navigate(-1)}
@@ -133,7 +124,6 @@ export default function PerfilCreador() {
           <ArrowLeft size={16} /> Volver a explorar
         </button>
 
-        {/* BOTÓN DINÁMICO: Cambia de estilo y texto según el estado de la suscripción */}
         <button
           onClick={handleFavorito}
           className={`flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl transition-colors border ${
@@ -154,7 +144,6 @@ export default function PerfilCreador() {
         </button>
       </div>
 
-      {/* --- PANEL DE PERFIL (Banner y Avatar) --- */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
         <div className="h-44 w-full bg-amber-100 relative z-0">
           {perfilInfo.bannerUrl && (
@@ -192,7 +181,6 @@ export default function PerfilCreador() {
         </div>
       </div>
 
-      {/* Alertas de éxito o error */}
       {mensajeExito && (
         <div className="bg-green-50 text-green-700 p-4 rounded-2xl text-sm font-bold border border-green-200 flex items-center gap-2 shadow-sm">
           <Heart size={18} className="text-green-600" />
@@ -205,9 +193,7 @@ export default function PerfilCreador() {
         </div>
       )}
 
-      {/* --- PANEL DE DOS COLUMNAS --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* COLUMNA DE METAS */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
           <h2 className="font-extrabold text-black flex items-center gap-2.5 text-lg border-b border-gray-50 pb-4 mb-4">
             <Target size={22} className="text-blue-600" />
@@ -231,7 +217,6 @@ export default function PerfilCreador() {
           )}
         </div>
 
-        {/* COLUMNA DE INTERACCIÓN / DONACIÓN */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
           <h2 className="font-extrabold text-black flex items-center gap-2.5 text-lg border-b border-gray-50 pb-4 mb-6">
             <Award size={22} className="text-amber-500" />
@@ -272,7 +257,6 @@ export default function PerfilCreador() {
         </div>
       </div>
 
-      {/* --- SECCIÓN INFERIOR: FEED INTEGRADO DEL PERFIL --- */}
       {creador.accesoDesbloqueado ? (
         <div className="space-y-6 pt-6">
           <h3 className="text-2xl font-extrabold text-gray-900 border-b pb-2 flex items-center gap-2">

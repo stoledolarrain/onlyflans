@@ -13,14 +13,12 @@ export default function ReporteIngresos() {
   const [cargando, setCargando] = useState(true);
   const [errorGlobal, setErrorGlobal] = useState("");
 
-  // Estados para los filtros de fecha
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
   const cargarReporte = () => {
     setCargando(true);
 
-    // Construimos los parámetros de búsqueda por si el usuario eligió fechas
     let url = "/creadores/reporte";
     const params = [];
     if (fechaInicio) params.push(`fechaInicio=${fechaInicio}`);
@@ -42,7 +40,6 @@ export default function ReporteIngresos() {
       });
   };
 
-  // Se ejecuta al entrar por primera vez
   useEffect(() => {
     cargarReporte();
   }, []);
@@ -56,16 +53,13 @@ export default function ReporteIngresos() {
     );
   }
 
-  // Extraemos datos de forma segura según la estructura típica de tu backend
   const totalFlanes = reporte?.totalFlanes || reporte?.total || 0;
   const donacionesLista = reporte?.donaciones || reporte?.historial || [];
 
-  // Suponiendo un valor estimado de ejemplo: 1 Flan = $1 USD (puedes cambiarlo si deseas)
   const ingresosEstimados = totalFlanes * 1;
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-12 space-y-6">
-      {/* Cabecera */}
       <div className="mb-8 border-b pb-4 flex items-center gap-3">
         <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
           <BarChart3 size={24} />
@@ -83,7 +77,6 @@ export default function ReporteIngresos() {
         </div>
       )}
 
-      {/* --- TARJETAS DE MÉTRICAS RÁPIDAS --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 flex items-center gap-4">
           <div className="p-4 bg-amber-50 rounded-2xl text-amber-600 text-2xl">
@@ -114,7 +107,6 @@ export default function ReporteIngresos() {
         </div>
       </div>
 
-      {/* --- FILTROS DE FECHA --- */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
           <Calendar size={16} className="text-gray-400" /> Filtrar por periodo
@@ -151,7 +143,6 @@ export default function ReporteIngresos() {
         </div>
       </div>
 
-      {/* --- TABLA DE DONANTES --- */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         <h3 className="p-6 pb-4 text-base font-extrabold text-gray-900 border-b border-gray-50">
           Historial de donaciones

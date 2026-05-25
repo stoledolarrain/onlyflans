@@ -10,7 +10,6 @@ export default function ListaCreadores() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Reemplaza "/creadores" si tu ruta en el backend se llama diferente
     api.get("/creadores/lista")
       .then((response) => {
         setCreadores(response.data);
@@ -23,7 +22,6 @@ export default function ListaCreadores() {
       });
   }, []);
 
-  // Lógica de búsqueda en tiempo real (Frontend)
   const creadoresFiltrados = creadores.filter((creador) =>
     creador.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
@@ -31,7 +29,6 @@ export default function ListaCreadores() {
   return (
     <div className="max-w-4xl mx-auto px-4 pb-12 space-y-8">
       
-      {/* Cabecera y Buscador */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
         <h1 className="text-2xl font-extrabold text-gray-900 mb-2">Explorar Creadores</h1>
         <p className="text-gray-600 text-sm mb-6">
@@ -52,7 +49,6 @@ export default function ListaCreadores() {
         </div>
       </div>
 
-      {/* Lista/Grid de Creadores */}
       {cargando ? (
         <p className="text-center text-gray-500 py-10 font-medium">Buscando creadores...</p>
       ) : error ? (
@@ -71,17 +67,14 @@ export default function ListaCreadores() {
               to={`/seguidor/creador/${creador.id}`}
               className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all group flex flex-col"
             >
-              {/* Mini Banner (z-0 para que se quede al fondo) */}
               <div className="h-24 bg-amber-100 w-full relative z-0">
                 {creador.bannerUrl && (
                   <img src={creador.bannerUrl} alt="Banner" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
                 )}
               </div>
               
-              {/* Info (Avatar y Nombre) - ¡z-10 y relative para que suba por encima del banner! */}
               <div className="px-5 pb-6 flex flex-col items-center -mt-10 flex-1 relative z-10">
                 
-                {/* Contenedor del Avatar */}
                 <div className="h-20 w-20 rounded-full bg-white p-1 shadow-md border-2 border-white overflow-hidden mb-3 flex items-center justify-center">
                   {creador.fotoUrl ? (
                     <img src={creador.fotoUrl} alt="Avatar" className="w-full h-full object-cover rounded-full" />

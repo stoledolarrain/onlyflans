@@ -43,17 +43,14 @@ export default function DashboardCreador() {
     reset: resetFormMeta,
   } = useForm();
 
-  // --- CORRECCIÓN DE CARGA INICIAL ---
   useEffect(() => {
     Promise.all([
       api.get("/posts/mis-posts"),
-      // Llamamos a la nueva ruta que acabamos de crear en el backend
       api.get("/creadores/mi-perfil").catch(() => ({ data: null })),
     ])
       .then(([resPosts, resPerfil]) => {
         setPosts(resPosts.data);
 
-        // Extraemos la información del perfil y la meta de forma segura
         if (resPerfil.data && resPerfil.data.creador) {
           const infoUsuario = resPerfil.data.creador;
           const perfilInfo = infoUsuario.Perfil || {
@@ -98,11 +95,9 @@ export default function DashboardCreador() {
     }
   };
 
-  // --- CORRECCIÓN DE GUARDADO DE PERFIL ---
   const onSubmitPerfil = async (data) => {
     try {
       const response = await api.put("/creadores/perfil", data);
-      // El backend devuelve { message: "...", perfil: {...} }, extraemos solo el perfil
       setPerfil(response.data.perfil || data);
       setEditandoPerfil(false);
     } catch (error) {
@@ -133,7 +128,6 @@ export default function DashboardCreador() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-12 space-y-6">
-      {/* --- PANEL DE PERFIL --- */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
         <div className="h-44 w-full bg-amber-100 relative z-0">
           {perfil.bannerUrl && (
@@ -242,7 +236,6 @@ export default function DashboardCreador() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* COLUMNA IZQUIERDA: META DE APOYO */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-4 lg:sticky lg:top-24">
           <div className="flex justify-between items-center border-b border-gray-50 pb-3">
             <h2 className="font-extrabold text-black flex items-center gap-2.5 text-base">
@@ -318,7 +311,6 @@ export default function DashboardCreador() {
           )}
         </div>
 
-        {/* COLUMNA CENTRAL/DERECHA: CREAR POSTS Y FEED */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h2 className="text-base font-extrabold text-black mb-4">
